@@ -18,7 +18,14 @@ class AI
      */
     public static function getGender($text)
     {
-        return 'Male';
+        if ((strpos($text, 'ค่ะ') !== false) || (strpos($text, 'คะ') !== false)) {
+            return 'Female';
+        }else if((strpos($text, 'ครับ') !== false) || (strpos($text, 'ครัช') !== false)){
+            return 'Male';
+        }else{
+            return 'Unknown';
+        }
+        
     }
 
     /**
@@ -26,7 +33,13 @@ class AI
      */
     public static function getSentiment($text)
     {
-        return 'Neutral';
+        if ((strpos($text, 'ดีใจ') !== false) || (strpos($text, 'ตื่นเต้น') !== false)) {
+            return 'Positive';
+        }else if(strpos($text, 'เฉยๆ') !== false){
+            return 'Neutral';
+        }else{
+            return 'Negative';
+        }
     }
 
     /**
@@ -34,7 +47,15 @@ class AI
      */
     public static function getRudeWords($text)
     {
-        return ['แสส'];
+        $rude =['แสส','ฟวย','ควE'];
+        $returnRude = array();
+        for($i=0 ; $i < sizeof($rude) ; $i++){
+            if ((strpos($text, $rude[$i]) !== false))
+                array_push($returnRude,$rude[$i]);
+        }
+
+        return  (sizeof($returnRude)==0)?['พูดเพราะมาก']:$returnRude;
+
     }
 
     /**
@@ -42,6 +63,19 @@ class AI
      */
     public static function getLanguages($text)
     {
-        return ['TH', 'EN'];
+        if(preg_replace('/[^ก-๛]/u','',$text)){
+            if(preg_replace('/[^a-z]/u','',$text)){
+                return ['TH', 'EN'];
+            }else{
+                return ['TH'];
+            }
+        }if(preg_replace('/[^a-z]/u','',$text)){
+            if(preg_replace('/[^ก-๛]/u','',$text)){
+                return ['TH', 'EN'];
+            }else{
+                return ['EN'];
+            }
+        }
+            
     }
 }
