@@ -80,4 +80,11 @@ final class AITest extends TestCase
         $expected_result =  ['ฟวย'];
         $this->assertEquals($expected_result, $result);
     }
+
+    public function  testRudeWords_MultiRude()
+    {
+        $result = AI::getRudeWords('ฟวยแสส');
+        $expected_result =  ['ฟวย','แสส'];
+        $this->assertEquals($expected_result, $result);
+    }
 }
